@@ -19,7 +19,7 @@ def get_info(song_name, csv_reader):
     return {
         "release_date": "",
         "duration_ms": "",
-        "artists": ""
+        "artists": "[]"
     }         
             
 

@@ -39,15 +39,26 @@ def lambda_handler(event, context):
     }
 
     if outputFormat == 'XML':
-        result = '<lyrics>' + lyrics + '</lyrics>' + '<release_date>' + info['release_date'] + '</release_date>' + '<duration_ms>' + info['duration_ms'] + '</duration_ms>' + '<artists>' + info['artists'] + '</artists>'
-    elif outputFormat == 'CSV':
-        result = lyrics + ',' + info['release_date'] + ',' + info['duration_ms'] + ',' + info['artists']
+        resultXML = '<lyrics>' + lyrics + '</lyrics>' + '<release_date>' + info['release_date'] + '</release_date>' + '<duration_ms>' + info['duration_ms'] + '</duration_ms>'
+        resultXML += '<artistList>'
+        artistList = info['artists'].replace('[', '').replace(']', '').replace('\'', '').split(',')
+        for artist in artistList:
+            resultXML += '<artist>' + artist + '</artist>'
+        resultXML += '</artistList>'
+        return {
+            'statusCode': 200,
+            'body': resultXML
+        }
 
+    elif outputFormat == 'CSV':
+        resultCSV = lyrics + ',' + info['release_date'] + ',' + info['duration_ms'] + ',' + info['artists']
+        return {
+            'statusCode': 200,
+            'body': resultCSV
+        }
 
     return {
         'statusCode': 200,
-        'body': json.dumps(result)
+        'body': result
     }
-
-
 

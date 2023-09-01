@@ -8,6 +8,8 @@ def get_lyrics(song_name, csv_reader):
     for song in csv_reader:
         if song['song'] == song_name:
             return song['text']
+    
+    return ""
 
 
 def lambda_handler(event, context):
